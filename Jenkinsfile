@@ -14,7 +14,7 @@ pipeline {
             }
             stage('Deploy') {
                   steps {
-                        echo "Deploying in Staging Area"]
+                        echo "Deploying in Staging Area"
 						build job: 'Deploy_Application_Staging'
                   }
             }
