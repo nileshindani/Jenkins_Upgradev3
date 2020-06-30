@@ -10,6 +10,7 @@ pipeline {
             stage('Build') {
                   steps {
                         echo 'Building Sample Maven Project'
+						archiveArtifacts artifacts: '**/*.war'
                   }
             }
             stage('Deploy') {
@@ -21,7 +22,7 @@ pipeline {
             stage('Deploy Production') {
                   steps {
                         echo "Deploying in Production Area"
-						build job: 'Deploy_Application_Staging'
+			
 						build job: 'Deploy_Application_Prod'
                   }
             }
