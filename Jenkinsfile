@@ -1,29 +1,31 @@
 pipeline {
-      agent any
-      stages {
-            stage('Init') {
-                  steps {
-                        echo 'Hi, this is Nilesh from LevelUp360'
-                        echo 'We are Starting the Testing'
-                  }
+    agent any
+    stages {
+        stage('Build Application') {
+            steps {
+                sh 'mvn -f java-tomcat-sample/pom.xml clean package'
             }
-            stage('Build') {
-                  steps {
-                        echo 'Building Sample Maven Project'
-						archiveArtifacts artifacts: '**/*.war'
-                  }
+            post {
+                success {
+                    echo "Now Archiving the Artifacts..for production deploy"
+                    archiveArtifacts artifacts: '**/*.war'
+                }
             }
-            stage('Deploy') {
-                  steps {
-                        echo "Deploying in Staging Area"
-						build job: 'Deploy_Application_Staging'
-                  }
+        }
+        stage('Deploy in Staging Environment'){
+            steps{
+                build job: 'Deploy_Application_Staging_Env'
+
             }
-            stage('Deploy Production') {
-                  steps {
-                        echo "Deploying in Production Area"			
-						build job: 'Deploy_Application_Prod'
-                  }
+            
+        }
+        stage('Deploy to Production'){
+            steps{
+                timeout(time:5, unit:'DAYS'){
+                    input message:'Approve PRODUCTION Deployment?'
+                }
+                build job: 'Deploy_Application_Prod_Env'
             }
-      }
+        }
+    }
 }
