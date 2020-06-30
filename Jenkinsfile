@@ -21,8 +21,7 @@ pipeline {
             }
             stage('Deploy Production') {
                   steps {
-                        echo "Deploying in Production Area"
-			
+                        echo "Deploying in Production Area"			
 						build job: 'Deploy_Application_Prod'
                   }
             }
