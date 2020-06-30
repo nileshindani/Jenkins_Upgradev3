@@ -7,7 +7,7 @@ pipeline {
             }
             post {
                 success {
-                    echo "Now Archiving the Artifacts..for production"
+                    echo "Now Archiving the Artifacts..for production deploy"
                     archiveArtifacts artifacts: '**/*.war'
                 }
             }
